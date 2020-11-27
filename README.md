@@ -15,8 +15,8 @@ Proposes a General Data Model to Describe how resources (and waste) flow in a ci
 
 
 ### UML Class diagram of waste flows
-![Modeltoplvel](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/TopLevelModel/TopLevel.png)
+![Modeltoplvel](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/TopLevelModel/TopLevel.png)
 
 
 ### UML model of waste flows
-![Model](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/Main.png)
+![Model](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/Main.png)
