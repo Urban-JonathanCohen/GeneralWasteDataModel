@@ -6,6 +6,7 @@ CaseStudies/00_Buenos Aires/
 
 
 ## Construction and Demolition waste managment
+![Goteborg full](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/02_CDWM/CDWM.png)
 
 
 
