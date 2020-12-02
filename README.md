@@ -47,6 +47,8 @@ Transport: Every time a waste material is moved from one container to another, t
 
 
 ## UML class diagram as tool to communicate the model
+![Modeltoplvel](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/TopLevelModel/General.png)
+
 
 
 ### UML Class diagram of waste flows
