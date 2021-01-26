@@ -3,13 +3,13 @@
 ![ConceptualBA_CASE](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/00_BuenosAires/Bubbles_BA.png)
 CaseStudies/00_Buenos Aires/
 
-## Goteborg Waste Managment
+## Waste Managment in Gotebog
 ![Goteborg full](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/01_SWM_Gote/Bubbles_municipal.png)
 
 ## Municipal waste managment
 ![Goteborg MSWM](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/01_SWM_Gote/Bubbles_SWMGO.png)
 
-### Solid waste managment
+### Solid waste managment (Producer responsability)
 ![Goteborg Extended product](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/04_Recyclables_Go/Bubbles_packs.png)
 
 ## Industrial Waste Managment
