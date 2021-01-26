@@ -13,5 +13,5 @@
 ![Industrial](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/03_Industrial/Bubbles_indus.png)
 
 ## Construction and Demolition waste managment
-![Goteborg full](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/02_CDWM/CDWM.png)
+![Goteborg full](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/02_CDWM/CDWM1.png)
 
