@@ -8,7 +8,8 @@
 ## Solid waste managment (Producer responsability)
 ![Goteborg Extended product](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/04_Recyclables_Go/Bubbles_packs.png)
 
-## Industrial Waste Managment
+## Waste Managment for Industrial Symbiosis
+
 ![Industrial](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/03_Industrial/Bubbles_indus.png)
 
 ## Construction and Demolition waste managment
