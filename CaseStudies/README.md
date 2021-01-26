@@ -11,7 +11,7 @@ CaseStudies/00_Buenos Aires/
 
 
 ## Goteborg Waste Managment
-![Goteborg full](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/05_Goteborg/Bubbles_GOTE.png)
+![Goteborg full](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/01_SWM_Gote/Bubbles_municipal.png)
 
 ### Municipal waste managment
 ![Goteborg MSWM](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/CaseStudies/01_SWM_Gote/Bubbles_SWMGO.png)
