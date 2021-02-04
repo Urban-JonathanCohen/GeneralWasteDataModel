@@ -56,7 +56,7 @@ Transport: Every time a waste material is moved from one container to another, t
 
 
 ### UML model of waste flows
-![Model](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/TopLevelModel/Topattributes.png)
+![Model](https://github.com/Urban-JonathanCohen/GeneralWasteDataModel/blob/main/TopLevelModel/GWFS.png)
 
 
 
