@@ -1,0 +1,1 @@
+DROP DATABASE general_waste_flow_standard;
