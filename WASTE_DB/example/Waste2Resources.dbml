@@ -1,0 +1,121 @@
+Project Waste2Resources {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Waste Database
+    This data model contributes to
+  '''
+}
+Table resource {
+  id int [pk, increment,unique ]
+  date_of_use timestamp
+  note: "This table contains information about the secondary resource present in the system"
+}
+Table process {
+  id int [pk, increment,unique]  
+  date_of_use timestamp
+  note: "This table contains information about the secondary resource present in the system"
+}
+
+
+
+
+Table generator {
+    id int [pk, increment, not null]
+    agent_id int [ref: < agent.id]   
+}
+Table transformator {
+    id int [pk, increment, not null]
+    agent_id int [ref: < agent.id]
+}
+Table user {
+    id int [pk, increment, not null]
+    agent_id int [ref: < agent.id]
+}
+
+
+
+Table agent {
+  id int [pk, increment ]
+  membership int [ref: > agent.id]
+  process_id int [ref: < process.id]
+  waste_id int [ref: < waste.id]   
+  resources_id int [ref: < resource.id]
+  date_of_use timestamp
+  date_updated timestamp
+  data_source varchar
+  note: "This table contains information about the secondary resource present in the system"
+}
+
+Table waste {
+  id int [pk, increment, unique]
+  date_of_use timestamp
+  type_of_waste varchar
+  note: "This table contains information about the secondary resource present in the system"
+}
+Table container_log {
+  id int [pk, increment, unique]
+  waste_id int [ref: < waste.id]  
+  projection gis_proj [not null]  
+  container_image varchar
+  date_updated timestamp
+  data_source varchar
+  note: "This table contains information about the containers in the system"
+}
+
+Table container {
+  id int [pk, increment, unique]
+  contain_log_id int [ref: < container_log.id]  
+  projection gis_proj [not null]  
+  container_image varchar
+  date_updated timestamp
+  data_source varchar
+  note: "This table contains information about the containers in the system"
+}
+Table street_segment {
+  id int [pk, increment, unique]
+  container_id int [ref: < container.id] 
+  agent int [ref: < agent.id] 
+}
+
+
+Table transport_log {
+  id int [pk, increment, unique]
+  container_id int [ref: < container.id] 
+
+}
+
+
+Table zones {
+  id int [pk, increment, unique]
+  part_of int [ref: < zones.id]
+  agent_id int [ref: < agent.id]
+  container_id int [ref: < container.id] 
+}
+
+Table kpi {
+  id int [pk, increment, unique]
+  zones_id int [ref: < zones.id]
+}
+
+
+
+
+
+
+
+
+
+
+// Creating references
+// You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one
+
+
+
+
+
+
+
+
+
+
