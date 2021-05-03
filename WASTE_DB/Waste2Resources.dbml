@@ -11,33 +11,41 @@ Project Waste2Resources {
 // [headercolor: #6cebc2]
 Table agent  {
     agent_id int [pk, unique, increment]    
-    q_members int
+    name varchar
+    size int
     agent_activity varchar
     nace_code varchar
+    type_of_agent varchar
+    oublic varchar
+    membership_name varchar
+    membership_id int [ ref: > agent.agent_id]
     income int
     latitude int
     longitude int
+    address varchar
     geom geom_enum
     date_updated timestamp
     data_source varchar
-    note: "Spatial class that contains information of stakeholder related to waste and resources"  
+    note: "Spatial class that contains shared information between the stakeholder related to waste and resources"  
 }
-Table member_connect {
-    agent_id int [ref: > agent.agent_id]
-    membership int [ref: > membership.membership_id]
-    note: "Many-2-many relationships are not allowed. This is a table to create these sort of relations"
-}
-Table membership{
-    membership_id int [pk]
-    q_members int
-    type_of_org varchar
-    budget int
-    address int 
-    description varchar
-}
-Table generation {
+//Table member_connect {
+//    agent_id int [ref: > agent.agent_id]
+//    membership int [ref: > membership.membership_id]
+//    note: "Many-2-many relationships are not allowed. This is a table to create these sort of relations"
+//}
+//Table membership{
+//    membership_id int [pk]
+//    q_members int
+//    type_of_org varchar
+//    budget int
+//    address int 
+//    description varchar
+//}
+
+Table generator {
     gen_id int [pk]
     agent_id int [ref: > agent.agent_id]
+    waste_id int [ref: < waste.waste_id]
     resource_used varchar
     q_resource int
     resource_freq frequency
@@ -65,7 +73,7 @@ Table consumer {
     date_updated timestamp
     data_source varchar
 }
-Table storage {
+Table storer {
     store_id int [pk]
     agent_id int [ref: > agent.agent_id]
     total_capacity int
@@ -75,7 +83,7 @@ Table storage {
     date_updated timestamp
     data_source varchar
 }
-Table tranformation {
+Table recycler {
     trans_id int [pk]
     agent_id int [ref: > agent.agent_id]
     waste_type int
@@ -91,52 +99,55 @@ Table tranformation {
     date_updated timestamp
     data_source varchar 
 }
-Table transportation {
+Table transporter {
     transport_id int [pk]
     agent_id int [ref: > agent.agent_id]
     waste_type int
-    waste_qty int
-    waste_frq frequency
+    waste_capacity int
     travel_mode int
     capacity int
-    vehicle varchar
+    vehicle_brand varchar
     vehicle_model varchar
     vehicle_url varchar
     age int    
     date_updated timestamp
     data_source varchar 
+    note: "Describing the asset that make the movemnet of waste happen"
 }
-Table route{
-    route_id int [pk]
-    transport_id int [ref: < transportation.transport_id]
-    latitude int
-    longitude int 
-    sequence int
-    moment timestamp
-    job_type varchar    
-    date_updated timestamp
-    data_source varchar 
-}
-Table resource {
-    res_id int [pk, increment, unique ]
-    resource_log_id int [ref: > resource_log.resource_log_id]
-    resource_type varchar
-    res_qty int
-    resource_p int
-    price_tag_source varchar [note: 'url of price']
-    date_updated timestamp
-    data_source varchar
-    note: "This table contains information about resource present in the system"  
-}
+
 Table waste {
     waste_id int [pk, increment, unique]
-    waste_log_id int [ref: > waste_log.waste_log_id]
+    //waste_log_id int [ref: > waste_log.waste_log_id]
     type_of_waste varchar
     waste_qty int
     date_updated timestamp
     data_source varchar
     note: "This table contains information about the secondary resource present in the system"
 }
+
+
+Table route{
+    route_id int [pk]
+    transport_id int [ref: < transporter.transport_id]
+    latitude int
+    longitude int 
+    sequence int
+    frequency frequency
+    day_of_the_week week_day
+    moment timestamp
+    job_type varchar    
+    date_updated timestamp
+    data_source varchar 
+}
+
+Table gps{
+    gps_id int [pk]
+    vehicle_id int [ref: < transporter.transport_id]
+    latitude int
+    longitude int
+}
+
+
 Table process {
     process_id int
     waste_id int [ref: > waste.waste_id]
@@ -153,11 +164,11 @@ Table process {
     date_updated timestamp
     data_source varchar
 }
-Table waste_log {
-    waste_log_id int [pk]
+Table waste_unit {
+    waste_id int [pk]
     agent_id int [ref: > agent.agent_id]
     contain_id int [ref: < container.cont_id]
-    created timestamp
+    moment_of_operaton timestamp
     waste_type varchar
     low_code varchar
     quantity int
@@ -205,6 +216,18 @@ Table kpi {
     }
 
 
+Table resource {
+    res_id int [pk, increment, unique ]
+    resource_log_id int [ref: > resource_log.resource_log_id]
+    resource_type varchar
+    res_qty int
+    resource_p int
+    price_tag_source varchar [note: 'url of price']
+    date_updated timestamp
+    data_source varchar
+    note: "This table contains information about resource present in the system"  
+}
+
 
 // Creating references
 // You can also define relaionship separately
@@ -234,5 +257,9 @@ Enum frequency {
 }
 
 
-
+Enum week_day{
+    "Monday"
+    "Tuesday"
+    "..."
+}
 
