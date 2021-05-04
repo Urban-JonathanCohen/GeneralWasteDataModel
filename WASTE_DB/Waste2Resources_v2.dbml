@@ -278,7 +278,7 @@ Table kpi  {
 
 TableGroup collecting_service {
     collection_job 
-    on_foot_staff 
+    staff 
     vehicle
     gps_reporting
 }
@@ -286,8 +286,9 @@ TableGroup collecting_service {
 
 Table collection_job  {
     collect_job_id int [pk]
-    container_visited int [ref: > container.container_id]
-    staff_id int [ref: > on_foot_staff.staff_id]
+    from_container int [ref: > container.container_id]
+    to_container int [ref: > container.container_id]
+    staff_id int [ref: > staff.staff_id]
     vehicle int [ref: > vehicle.vehicle_id] 
     regulation int [ref: > regulation.regulation_id]
     job_name varchar
@@ -301,7 +302,7 @@ Table collection_job  {
 
 
 
-Table on_foot_staff   {
+Table staff   {
     staff_id int [pk]
     employed_by int [ref:> organization.organization_id]
     assigend_to int [ref:> zones.zone_id]
@@ -348,7 +349,7 @@ Table trucks_park {
 
 Table gps_reporting  {
     vehicle int [ref: > vehicle.vehicle_id]
-    staff int [ref: > on_foot_staff.staff_id]
+    staff int [ref: > staff.staff_id]
     moment timestamp
     longitude int
     latitude int

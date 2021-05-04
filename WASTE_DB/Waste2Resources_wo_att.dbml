@@ -14,6 +14,7 @@ Project Waste2Resources_no_att {
 Table container_cluster [headercolor: #6cebc2] {
     // cluster_id int [pk]
     contaiers_in int [ref: < container.container_id]
+    .... int
     // name varchar
     // street_name varchar
     // streeet_number varchar
@@ -285,7 +286,8 @@ Table kpi  {
 
 Table collection_job  {
     collect_job_id int [pk]
-    container_visited int [ref: > container.container_id]
+    from_container int [ref: > container.container_id]
+    to_container int [ref: > container.container_id]
     staff_id int [ref: > on_foot_staff.staff_id]
     vehicle int [ref: > vehicle.vehicle_id] 
     regulation int [ref: > regulation.regulation_id]
