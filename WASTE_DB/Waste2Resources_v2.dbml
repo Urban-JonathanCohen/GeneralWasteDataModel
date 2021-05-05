@@ -109,7 +109,7 @@ Table gen_fill_waste {
     // gen_fill_id int [pk]
     contained_in int [ref: > container.container_id]
     filled_by int [ref: > generator.gen_id]
-    waste_id int [ref: > waste_gen.waste_gen_id]
+    //waste_id int [ref: > waste_gen.waste_gen_id]
     regulated_by int [ref: > regulation.regulation_id]
     amount_gen int
     amount_unit varchar
@@ -119,6 +119,7 @@ Table gen_fill_waste {
     contamination_type varchar
     frequency_of_gen varchar
     close_raw_material varchar
+    image varchar 
     date_gen_n_contain timestamp
     note: "Artificial table to represent waste that is being generated and put in containers, by agents"
 }
@@ -130,12 +131,12 @@ Table generator  [headercolor: #5de89e]{
     //regulated_by int [ref: > regulation.regulation_id]
     //subject_of_law varchar
     //regulation_url varchar
-    address varchar
-    street_name varchar
-    street_number varchar
+    //address varchar
+    //street_name varchar
+    //street_number varchar
     //street_id int
-    longitude int
-    latitude int
+    //longitude int
+    //latitude int
     geom int
     q_members int
     income int
@@ -145,23 +146,24 @@ Table generator  [headercolor: #5de89e]{
     residential boolean
     last_updated timestamp
     updated_by varchar
-    note: "Spatial class that describes characteristics of the agents in the system that generate waste"
-}
-
-Table waste_gen  {
-    waste_gen_id int [pk, unique]
-    generated_by int [ref:> generator.gen_id]
     amount int
     amount_unit varchar
     waste_type varchar
     low_code varchar
     frequency_of_gen varchar
-    regulated_by int [ref: > regulation.regulation_id]
-    //subject_of_law varchar
-    //regulation_url varchar
-    image varchar    
+    regulated_by int [ref: > regulation.regulation_id]    
     last_updated timestamp
     updated_by varchar    
+    note: "Spatial class that describes characteristics of the agents in the system that generate waste"
+}
+
+//Table waste_gen  {
+  //  waste_gen_id int [pk, unique]
+   // generated_by int [ref:> generator.gen_id]    
+    //subject_of_law varchar
+    //regulation_url varchar
+       
+
 }
 
 // Optional table
