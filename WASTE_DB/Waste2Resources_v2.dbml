@@ -105,12 +105,13 @@ Table iot_reporting  [headercolor: #b65cf2] {
 }
 
 // This represents the 
-Table gen_fill_waste {
+//change it to waste disposal
+Table waste_generated {
     // gen_fill_id int [pk]
     contained_in int [ref: > container.container_id]
     filled_by int [ref: > generator.gen_id]
     //waste_id int [ref: > waste_gen.waste_gen_id]
-    regulated_by int [ref: > regulation.regulation_id]
+    //regulated_by int [ref: > regulation.regulation_id]
     amount_gen int
     amount_unit varchar
     waste_type varchar
@@ -118,6 +119,7 @@ Table gen_fill_waste {
     contamination boolean
     contamination_type varchar
     frequency_of_gen varchar
+    gen_time timestamp
     close_raw_material varchar
     image varchar 
     date_gen_n_contain timestamp
@@ -144,8 +146,6 @@ Table generator  [headercolor: #5de89e]{
     activity_code varchar
     nace_code varchar
     residential boolean
-    last_updated timestamp
-    updated_by varchar
     amount int
     amount_unit varchar
     waste_type varchar
@@ -161,10 +161,8 @@ Table generator  [headercolor: #5de89e]{
   //  waste_gen_id int [pk, unique]
    // generated_by int [ref:> generator.gen_id]    
     //subject_of_law varchar
-    //regulation_url varchar
-       
-
-}
+    //regulation_url varchar  
+//}
 
 // Optional table
 Table mantainence_job  {
@@ -187,8 +185,8 @@ Table organization [headercolor: #09ab54]{
     organization_id int [pk, unique]
     name varchar
     part_of int [ref: > organization.organization_id]
-    contract int [ref: > contract.contract_id]
-    regulated_by int [ref: > regulation.regulation_id]
+    //contract int [ref: > contract.contract_id]
+    //regulated_by int [ref: > regulation.regulation_id]
     //subject_of_law varchar
     //regulation_url varchar
     private boolean
@@ -293,6 +291,7 @@ Table collection_job  {
     staff_id int [ref: > staff.staff_id]
     vehicle int [ref: > vehicle.vehicle_id] 
     regulation int [ref: > regulation.regulation_id]
+    mode varchar
     job_name varchar
     transfer_amount int
     waste_type int
@@ -320,6 +319,8 @@ Table vehicle  {
     vehicle_id int [pk]
     mantained_by int [ref: > organization.organization_id]
     parks_in int [ref: - trucks_park.park_id]
+    type varchar
+    description varchar
     model varchar
     producer varachar
     model_url varchar
