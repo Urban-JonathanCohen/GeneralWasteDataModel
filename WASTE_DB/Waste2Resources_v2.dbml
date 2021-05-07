@@ -34,8 +34,8 @@ Table container_cluster [headercolor: #6cebc2] {
 
 Table container  [headercolor: #6cebc2]{
     container_id int [pk, unique, not null]
-    // owned_by int [ref: > organization.organization_id]
-    responsability_of int [ref: > organization.organization_id]
+    // owned_by int [ref: > actor.actor_id]
+    responsability_of int [ref: > actor.actor_id]
     longitude int 
     latitude int 
     address varchar
@@ -129,7 +129,7 @@ Table waste_generated {
 
 Table generator  [headercolor: #5de89e]{
     gen_id int [pk,unique]
-    organization int [ref: > organization.organization_id]
+    actor int [ref: > actor.actor_id]
     //regulated_by int [ref: > regulation.regulation_id]
     //subject_of_law varchar
     //regulation_url varchar
@@ -168,7 +168,7 @@ Table generator  [headercolor: #5de89e]{
 Table mantainence_job  {
     job_id int [pk, unique]
     job_time timestamp
-    ordered_by int [ref: > organization.organization_id]
+    ordered_by int [ref: > actor.actor_id]
     container_mantained int [ref: > container.container_id]
     amount_unit varchar
     waste_type varchar
@@ -181,10 +181,10 @@ Table mantainence_job  {
     updated_by varchar    
 }
 
-Table organization [headercolor: #09ab54]{
-    organization_id int [pk, unique]
+Table actor [headercolor: #09ab54]{
+    actor_id int [pk, unique]
     name varchar
-    part_of int [ref: > organization.organization_id]
+    part_of int [ref: > actor.actor_id]
     //contract int [ref: > contract.contract_id]
     //regulated_by int [ref: > regulation.regulation_id]
     //subject_of_law varchar
@@ -198,7 +198,7 @@ Table organization [headercolor: #09ab54]{
     budget_month int
     main_responsable int
     responsable_econtact varchar
-    organization_url varchar
+    actor_url varchar
     address varchar
     street_name varchar
     street_num int
@@ -220,8 +220,8 @@ TableGroup coverage_service {
 
 Table routes [headercolor: #6cebc2] {
     route_id int [pk]
-    defined_by int [ref: > organization.organization_id]
-    be_performed_by int [ref: > organization.organization_id]
+    defined_by int [ref: > actor.actor_id]
+    be_performed_by int [ref: > actor.actor_id]
     start_long int
     start_lat int
     end_long int
@@ -233,16 +233,16 @@ Table routes [headercolor: #6cebc2] {
 
 Table zones [headercolor: #6cebc2] {
     zone_id int [pk, unique]
-    defined_by int [ref: > organization.organization_id]
-    be_performed_by int [ref: > organization.organization_id]
+    defined_by int [ref: > actor.actor_id]
+    be_performed_by int [ref: > actor.actor_id]
     geom int
 }
 
 Table contract {
     contract_id int [pk, unique]
-    solicitor_id int [ref: > organization.organization_id]
-    contractor_id int [ref: > organization.organization_id]
-    controlled_by_id int [ref: > organization.organization_id]
+    solicitor_id int [ref: > actor.actor_id]
+    contractor_id int [ref: > actor.actor_id]
+    controlled_by_id int [ref: > actor.actor_id]
     amount int
     date_start timestamp
     valid_until timestamp
@@ -257,7 +257,7 @@ Table regulation {
     regulation_id int [pk, unique]
     regulation_name varchar
     regulation_url varchar
-    regulation_created_by int [ref: > organization.organization_id]
+    regulation_created_by int [ref: > actor.actor_id]
     date_issued timestamp
     valid_until timestamp
     last_updated timestamp
@@ -268,7 +268,7 @@ Table kpi  {
     kpi_id int [pk]
     kpi_name varchar
     kpi_value int
-    defined_by int [ref: < organization.organization_id]
+    defined_by int [ref: < actor.actor_id]
     defined_in int  [ref: < regulation.regulation_id]
     publish_date timestamp
     last_updated varchar
@@ -305,7 +305,7 @@ Table collection_job  {
 
 Table staff   {
     staff_id int [pk]
-    employed_by int [ref:> organization.organization_id]
+    employed_by int [ref:> actor.actor_id]
     assigend_to int [ref:> zones.zone_id]
     formal boolean
     salary_month int
@@ -317,7 +317,7 @@ Table staff   {
 
 Table vehicle  {
     vehicle_id int [pk]
-    mantained_by int [ref: > organization.organization_id]
+    mantained_by int [ref: > actor.actor_id]
     parks_in int [ref: - trucks_park.park_id]
     type varchar
     description varchar
@@ -337,7 +337,7 @@ Table vehicle  {
 
 Table trucks_park {
     park_id int [pk]
-    belongs_to int [ref: - organization.organization_id]   
+    belongs_to int [ref: - actor.actor_id]   
     sq_mts int
     geom int
     capacity int
@@ -364,7 +364,7 @@ Table gps_reporting  {
 
 Table storage_facility [headercolor: #5de89e] {
     storage_id [pk]
-    belongs_to int [ref: < organization.organization_id]
+    belongs_to int [ref: < actor.actor_id]
     regulated_by int [ref: > regulation.regulation_id]
     name varchar
     capcity int
@@ -388,7 +388,7 @@ TableGroup ce {
 
 Table recycling_facility [headercolor: #5de89e] {
     recyle_id [pk]
-    belongs_to int [ref: < organization.organization_id]
+    belongs_to int [ref: < actor.actor_id]
     technology int [ref: < recycling_process.process_id]
     regulated_by int [ref: > regulation.regulation_id]
     name varchar
@@ -420,7 +420,7 @@ Table resource {
 
 Table ce_consumer [headercolor: #5de89e]{
     user_id [pk]
-    belongs_to int [ref: < organization.organization_id]
+    belongs_to int [ref: < actor.actor_id]
     name varchar
     use_resource int [ref: < resource.resource_id]
 }
