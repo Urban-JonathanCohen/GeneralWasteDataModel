@@ -1,0 +1,265 @@
+Project Waste2Resources {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Waste and resources spatial database
+    This standard moves forward the digitalization process of resorices traceability.
+    By demostrating how data can be organized and contained using a general but systematic method, 
+    researchers and practitioners process..contributes to deliver sustainability practices
+    by showing how to organize 
+  '''
+}
+// [headercolor: #6cebc2]
+Table agent  {
+    agent_id int [pk, unique, increment]    
+    name varchar
+    size int
+    agent_activity varchar
+    nace_code varchar
+    type_of_agent varchar
+    oublic varchar
+    membership_name varchar
+    membership_id int [ ref: > agent.agent_id]
+    income int
+    latitude int
+    longitude int
+    address varchar
+    geom geom_enum
+    date_updated timestamp
+    data_source varchar
+    note: "Spatial class that contains shared information between the stakeholder related to waste and resources"  
+}
+//Table member_connect {
+//    agent_id int [ref: > agent.agent_id]
+//    membership int [ref: > membership.membership_id]
+//    note: "Many-2-many relationships are not allowed. This is a table to create these sort of relations"
+//}
+//Table membership{
+//    membership_id int [pk]
+//    q_members int
+//    type_of_org varchar
+//    budget int
+//    address int 
+//    description varchar
+//}
+
+Table generator {
+    gen_id int [pk]
+    agent_id int [ref: > agent.agent_id]
+    waste_id int [ref: < waste.waste_id]
+    resource_used varchar
+    q_resource int
+    resource_freq frequency
+    process_name varchar
+    process_description varchar
+    process_url varchar [note: 'url of procees']
+    capital_used varchar
+    total_cost int 
+    cost_unit int
+    cost_t_unit frequency
+    waste_low varchar
+    q_waste int
+    waste_description varchar
+    waste_frequency frequency
+    date_updated timestamp
+    data_source varchar
+}
+Table consumer {
+    cons_id int [pk]
+    agent_id int [ref: > agent.agent_id]
+    resource_type int
+    resource_qty int
+    resource_p int
+    resource_frq frequency
+    date_updated timestamp
+    data_source varchar
+}
+Table storer {
+    store_id int [pk]
+    agent_id int [ref: > agent.agent_id]
+    total_capacity int
+    type_of_waste varchar
+    capactiy_in_use int
+    operation_cost int    
+    date_updated timestamp
+    data_source varchar
+}
+Table recycler {
+    trans_id int [pk]
+    agent_id int [ref: > agent.agent_id]
+    waste_type int
+    waste_qty int
+    waste_frq frequency
+    resource_type int
+    resource_qty int
+    resource_p int
+    resource_frq frequency
+    process_url varchar
+    process_description varchar
+    process_type varchar
+    date_updated timestamp
+    data_source varchar 
+}
+Table transporter {
+    transport_id int [pk]
+    agent_id int [ref: > agent.agent_id]
+    waste_type int
+    waste_capacity int
+    travel_mode int
+    capacity int
+    vehicle_brand varchar
+    vehicle_model varchar
+    vehicle_url varchar
+    age int    
+    date_updated timestamp
+    data_source varchar 
+    note: "Describing the asset that make the movemnet of waste happen"
+}
+
+Table waste {
+    waste_id int [pk, increment, unique]
+    //waste_log_id int [ref: > waste_log.waste_log_id]
+    type_of_waste varchar
+    waste_qty int
+    date_updated timestamp
+    data_source varchar
+    note: "This table contains information about the secondary resource present in the system"
+}
+
+
+Table route{
+    route_id int [pk]
+    transport_id int [ref: < transporter.transport_id]
+    latitude int
+    longitude int 
+    sequence int
+    frequency frequency
+    day_of_the_week week_day
+    moment timestamp
+    job_type varchar    
+    date_updated timestamp
+    data_source varchar 
+}
+
+Table gps{
+    gps_id int [pk]
+    vehicle_id int [ref: < transporter.transport_id]
+    latitude int
+    longitude int
+}
+
+
+Table process {
+    process_id int
+    waste_id int [ref: > waste.waste_id]
+    resource_id int [ref: > resource.res_id]
+    process_name varchar
+    process_description varchar
+    process_url varchar [note: 'url of procees']
+    capital_used varchar
+    model varchar
+    year int
+    total_cost int [note: 'cost of the process. Res2Waste or Waste2Res']
+    cost_unit int
+    cost_t_unit frequency
+    date_updated timestamp
+    data_source varchar
+}
+Table waste_unit {
+    waste_id int [pk]
+    agent_id int [ref: > agent.agent_id]
+    contain_id int [ref: < container.cont_id]
+    moment_of_operaton timestamp
+    waste_type varchar
+    low_code varchar
+    quantity int
+    contamination boolean 
+    contamination_desc varchar
+}
+Table resource_log {
+    resource_log_id int [pk]
+    agent_id int [ref: > agent.agent_id]
+    created timestamp
+    res_type varchar
+    res_code varchar
+    quantity int
+    res_desc varchar    
+}
+Table container{
+    cont_id int [pk, increment]
+    latitude int
+    longitude int
+    capacity int
+    material varchar
+    model varchar
+    model_url varchar
+    designed2contain varchar
+    status varchar
+    container_image varchar [note: "This is a file for an image of the container"]
+    iot_device boolean
+    iot_function varchar
+    date_updated timestamp
+    data_source varchar
+    note: "This table contains information about the containers in the system"
+}
+
+
+Table zones {
+    zones_id int [pk, increment, unique]
+    part_of int [ref: < zones.zones_id]
+    agent_id int [ref: < agent.agent_id]
+    container_id int [ref: < container.cont_id] 
+}
+
+Table kpi {
+    kpi_id int [pk, increment, unique]
+    zones_id int [ref: < zones.zones_id]
+    }
+
+
+Table resource {
+    res_id int [pk, increment, unique ]
+    resource_log_id int [ref: > resource_log.resource_log_id]
+    resource_type varchar
+    res_qty int
+    resource_p int
+    price_tag_source varchar [note: 'url of price']
+    date_updated timestamp
+    data_source varchar
+    note: "This table contains information about resource present in the system"  
+}
+
+
+// Creating references
+// You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one
+
+
+Enum geom_enum {
+    Point
+    LineString
+    CircularString
+    CompoundCurve
+    Polygon
+    CurvePolygon
+    MultiPoint
+    MultiLineString
+    MultiPolygon
+    GeometryCollection
+}
+
+
+Enum frequency {    
+    "Onece per year"
+    "Once every half year"
+    "Once every 3 months"
+    "Monthly"
+    "Weekly"
+}
+
+
+Enum week_day{
+    "Monday"
+    "Tuesday"
+    "..."
+}
+

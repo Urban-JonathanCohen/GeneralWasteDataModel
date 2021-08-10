@@ -1,0 +1,435 @@
+Project Waste2Resources {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Waste and resources spatial database
+    This standard moves forward the digitalization process of resorices traceability.
+    By demostrating how data can be organized and contained using a general but systematic method, 
+    researchers and practitioners process..contributes to deliver sustainability practices
+    by showing how to organize 
+  '''
+}
+
+
+
+Table container_cluster [headercolor: #6cebc2] {
+    // cluster_id int [pk]
+    contaiers_in int [ref: < container.container_id]
+    name varchar
+    street_name varchar
+    streeet_number varchar
+    street_id int [note: "street link"]
+    geom int
+    entrance_long int
+    entrance_lat int
+    open_time int
+    close_time int
+    open_days varchar
+    with_staff boolean
+    staff_quantity int  
+    acceess_requirements int
+    web_site varchar
+    last_updated timestamp
+    updated_by varchar
+}
+
+Table container  [headercolor: #6cebc2]{
+    container_id int [pk, unique, not null]
+    // owned_by int [ref: > actor.actor_id]
+    responsability_of int [ref: > actor.actor_id]
+    longitude int 
+    latitude int 
+    address varchar
+    street_name varchar
+    street_num int
+    //street_id int
+    color int 
+    model varchar
+    producer varchar
+    producer_url varchar
+    capacity_vol int
+    capacity_vol_unit varchar
+    capacity_weight int
+    capacity_weight_unit varchar
+    waste_type varchar
+    hight int
+    width int
+    outdoors boolean
+    waste_desc varchar
+    waste_code varchar
+    model_url varchar
+    value int
+    image varchar
+    vandalized boolean
+    condition varchar
+    mobile_unit boolean
+    last_updated timestamp
+    updated_by varchar
+    // road_id
+    // iot_device_id
+    // road_segment_id
+}
+
+
+TableGroup e_bins {
+    iot_device 
+    iot_reporting
+}
+
+
+
+
+
+Table iot_device  [headercolor: #b65cf2] {
+    iot_device_id in [pk, unique]
+    attached_to int [ref: > container.container_id]
+    model varchar
+    value int
+    mantained_by varchar
+    responsability_of varchar [note: ""]
+    producer varcahr
+    documenataiton varchar
+    time_installed timestamp
+    note: "One container can have many iot-devices. Documents information about iot device attached to a container"
+}
+
+Table iot_reporting  [headercolor: #b65cf2] {
+    // iot_reporting_id int [pk]
+    report_id int [pk, ref: > iot_device.iot_device_id]
+    time_stamp timestamp
+    temp int
+    open_lid boolean
+    capacity int
+    humidity int
+    status int
+    weight int    
+}
+
+// This represents the 
+//change it to waste disposal
+Table waste_generated {
+    // gen_fill_id int [pk]
+    contained_in int [ref: > container.container_id]
+    filled_by int [ref: > generator.gen_id]
+    //waste_id int [ref: > waste_gen.waste_gen_id]
+    //regulated_by int [ref: > regulation.regulation_id]
+    amount_gen int
+    amount_unit varchar
+    waste_type varchar
+    low_code varchar
+    contamination boolean
+    contamination_type varchar
+    frequency_of_gen varchar
+    gen_time timestamp
+    close_raw_material varchar
+    image varchar 
+    date_gen_n_contain timestamp
+    note: "Artificial table to represent waste that is being generated and put in containers, by agents"
+}
+
+
+Table generator  [headercolor: #5de89e]{
+    gen_id int [pk,unique]
+    actor int [ref: > actor.actor_id]
+    //regulated_by int [ref: > regulation.regulation_id]
+    //subject_of_law varchar
+    //regulation_url varchar
+    //address varchar
+    //street_name varchar
+    //street_number varchar
+    //street_id int
+    //longitude int
+    //latitude int
+    geom int
+    q_members int
+    income int
+    activity_descr int
+    activity_code varchar
+    nace_code varchar
+    residential boolean
+    amount int
+    amount_unit varchar
+    waste_type varchar
+    low_code varchar
+    frequency_of_gen varchar
+    regulated_by int [ref: > regulation.regulation_id]    
+    last_updated timestamp
+    updated_by varchar    
+    note: "Spatial class that describes characteristics of the agents in the system that generate waste"
+}
+
+//Table waste_gen  {
+  //  waste_gen_id int [pk, unique]
+   // generated_by int [ref:> generator.gen_id]    
+    //subject_of_law varchar
+    //regulation_url varchar  
+//}
+
+// Optional table
+Table mantainence_job  {
+    job_id int [pk, unique]
+    job_time timestamp
+    ordered_by int [ref: > actor.actor_id]
+    container_mantained int [ref: > container.container_id]
+    amount_unit varchar
+    waste_type varchar
+    low_code varchar
+    frequency_of_gen varchar
+    subject_of_law varchar
+    regulation_url varchar
+    image varchar    
+    last_updated timestamp
+    updated_by varchar    
+}
+
+Table actor [headercolor: #09ab54]{
+    actor_id int [pk, unique]
+    name varchar
+    part_of int [ref: > actor.actor_id]
+    //contract int [ref: > contract.contract_id]
+    //regulated_by int [ref: > regulation.regulation_id]
+    //subject_of_law varchar
+    //regulation_url varchar
+    private boolean
+    public boolean
+    pct_pub_owned boolean
+    amount_members int
+    objective_descr varchar
+    budget_yr int
+    budget_month int
+    main_responsable int
+    responsable_econtact varchar
+    actor_url varchar
+    address varchar
+    street_name varchar
+    street_num int
+    city varchar
+    country varchar
+    longitude int
+    latitude int
+    headquarter boolean
+    last_updated timestamp
+    updated_by varchar
+}
+
+
+
+TableGroup coverage_service {
+    routes 
+    zones 
+}
+
+Table routes [headercolor: #6cebc2] {
+    route_id int [pk]
+    defined_by int [ref: > actor.actor_id]
+    be_performed_by int [ref: > actor.actor_id]
+    start_long int
+    start_lat int
+    end_long int
+    end_lat int
+    sequence int
+
+}
+
+
+Table zones [headercolor: #6cebc2] {
+    zone_id int [pk, unique]
+    defined_by int [ref: > actor.actor_id]
+    be_performed_by int [ref: > actor.actor_id]
+    geom int
+}
+
+Table contract {
+    contract_id int [pk, unique]
+    solicitor_id int [ref: > actor.actor_id]
+    contractor_id int [ref: > actor.actor_id]
+    controlled_by_id int [ref: > actor.actor_id]
+    amount int
+    date_start timestamp
+    valid_until timestamp
+    job_description varchar
+    contract_url varchar
+    last_updated timestamp
+    updated_by varchar
+}
+
+
+Table regulation {
+    regulation_id int [pk, unique]
+    regulation_name varchar
+    regulation_url varchar
+    regulation_created_by int [ref: > actor.actor_id]
+    date_issued timestamp
+    valid_until timestamp
+    last_updated timestamp
+    updated_by timestamp
+}
+
+Table kpi  {
+    kpi_id int [pk]
+    kpi_name varchar
+    kpi_value int
+    defined_by int [ref: < actor.actor_id]
+    defined_in int  [ref: < regulation.regulation_id]
+    publish_date timestamp
+    last_updated varchar
+    updated_by varchar 
+}
+
+
+TableGroup collecting_service {
+    waste_transfer 
+    staff 
+    vehicle
+    gps_reporting
+}
+
+
+Table waste_transfer  {
+    collect_job_id int [pk]
+    from_container int [ref: > container.container_id]
+    to_container int [ref: > container.container_id]
+    staff_id int [ref: > staff.staff_id]
+    vehicle int [ref: > vehicle.vehicle_id] 
+    regulation int [ref: > regulation.regulation_id]
+    mode varchar
+    job_name varchar
+    transfer_amount int
+    waste_type int
+    low_code varchar
+    arrival_time timestamp
+    departure_time timestamp
+    issue_reported varchar
+}
+
+
+
+
+Table staff   {
+    staff_id int [pk]
+    employed_by int [ref:> actor.actor_id]
+    assigend_to int [ref:> zones.zone_id]
+    formal boolean
+    salary_month int
+    bonus_per_job int
+    use_vehicle boolean
+}
+
+
+
+Table vehicle  {
+    vehicle_id int [pk]
+    mantained_by int [ref: > actor.actor_id]
+    parks_in int [ref: - trucks_park.park_id]
+    type varchar
+    description varchar
+    model varchar
+    producer varachar
+    model_url varchar
+    purched_on timestamp
+    last_mantaince timestamp
+    mantaince_job varchar
+    mounted_gps boolean
+    permite_ok boolean
+    last_inspection timestamp
+    last_updated varchar
+    updated_by varchar 
+
+}
+
+Table trucks_park {
+    park_id int [pk]
+    belongs_to int [ref: - actor.actor_id]   
+    sq_mts int
+    geom int
+    capacity int
+    address varchar
+    street_name varchar
+    street_num int
+    staff_on_site int 
+    last_updated varchar
+    updated_by varchar 
+}
+
+
+Table gps_reporting  {
+    vehicle int [ref: > vehicle.vehicle_id]
+    staff int [ref: > staff.staff_id]
+    moment timestamp
+    longitude int
+    latitude int
+    scale_weight int
+    waste_type varchar
+}
+
+
+
+Table storage_facility [headercolor: #5de89e] {
+    storage_id [pk]
+    belongs_to int [ref: < actor.actor_id]
+    regulated_by int [ref: > regulation.regulation_id]
+    name varchar
+    capcity int
+    waste_to_store varchar
+    cost_yr int
+    cost_mth int
+    place_description varchar
+    technology varchar
+    percentage_used int
+    last_updated timestamp
+    updated_by varchar 
+}
+
+
+TableGroup ce {
+    ce_consumer 
+    resource 
+    recycling_facility
+    recycling_process
+}
+
+Table recycling_facility [headercolor: #5de89e] {
+    recyle_id [pk]
+    belongs_to int [ref: < actor.actor_id]
+    technology int [ref: < recycling_process.process_id]
+    regulated_by int [ref: > regulation.regulation_id]
+    name varchar
+    capcity int
+}
+
+Table recycling_process  {
+    process_id in [pk]
+    method varchar
+    resource varchar
+    method_description varchar
+    method_url varchar
+    capacity_int int
+    low_used varchar
+    waste_used_descr varchar
+    resource_produced varchar
+    amount_resource int
+}
+
+
+Table resource {
+    resource_id int [pk]
+    process_id int [ref: > recycling_process.process_id]
+    amount int
+    value int
+    material_type varchar
+    created timestamp
+}
+
+Table ce_consumer [headercolor: #5de89e]{
+    user_id [pk]
+    belongs_to int [ref: < actor.actor_id]
+    name varchar
+    use_resource int [ref: < resource.resource_id]
+}
+
+
+
+Table deployment {
+    start_time timestamp
+    end_time timestamp
+
+}
